@@ -35,6 +35,13 @@ async function publishPost(id: string): Promise<void> {
   await Router.push("/");
 }
 
+async function deletePost(id: string): Promise<void> {
+  await fetch(`/api/post/${id}`, {
+    method: "DELETE",
+  });
+  Router.push("/");
+}
+
 const Post: React.FC<PostProps> = (props) => {
   const { data: session, status } = useSession();
 
@@ -62,6 +69,10 @@ const Post: React.FC<PostProps> = (props) => {
 
         {!props.published && userHasValidSession && postBelongToUser && (
           <button onClick={() => publishPost(props.id)}>Publish</button>
+        )}
+
+        {userHasValidSession && postBelongToUser && (
+          <button onClick={() => deletePost(props.id)}>Delete</button>
         )}
       </div>
 
